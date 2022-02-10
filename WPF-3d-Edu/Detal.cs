@@ -61,29 +61,52 @@ namespace WPF_3d_Edu
                     angles[5],
                     angles[6],
                     angles[2]
+                },
+                TriangleIndices = new()
+                {
+                    0,
+                    3,
+                    1,
+                    1,
+                    3,
+                    2,
+
+                    4,
+                    5,
+                    6,
+                    6,
+                    7,
+                    4,
+
+                    8,
+                    9,
+                    11,
+                    11,
+                    9,
+                    10,
+
+                    12,
+                    15,
+                    13,
+                    13,
+                    15,
+                    14,
+
+                    16,
+                    19,
+                    17,
+                    17,
+                    19,
+                    18,
+
+                    20,
+                    23,
+                    21,
+                    21,
+                    23,
+                    22
+
                 }
-            };
-
-            mesh.TriangleIndices = new()
-            {
-                0,3,1,
-                1,3,2,
-
-                4,5,6,
-                6,7,4,
-
-                8,9,11,
-                11,9,10,
-
-                12,15,13,
-                13,15,14,
-
-                16,19,17,
-                17,19,18,
-
-                20,23,21,
-                21,23,22
-
             };
 
             return mesh;
@@ -94,11 +117,17 @@ namespace WPF_3d_Edu
             GeometryModel3D model = new GeometryModel3D
             {
                 Geometry = BuildMesh(),
-                Material = new DiffuseMaterial(Brushes.CadetBlue),
-                BackMaterial = new DiffuseMaterial(Brushes.MidnightBlue)
+                Material = new MaterialGroup()
+                {
+                    Children = new()
+                    {
+                        new DiffuseMaterial(Brushes.DimGray),
+                        new SpecularMaterial(Brushes.CadetBlue, 2)
+                    }
+                }
             };
 
             return model;
         }
-    }
+}
 }
