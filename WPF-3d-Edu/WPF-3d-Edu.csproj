@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <RootNamespace>WPF_3d_Edu</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="3DTools">
+      <HintPath>D:\YandexDisk\Разное\ITVDN\WPF Углублённый\019 3D Graphics\3DTools.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
