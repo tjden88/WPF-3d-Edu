@@ -5,43 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_3d_Edu"
         xmlns:dTools="clr-namespace:_3DTools;assembly=3DTools"
+        xmlns:h="http://helix-toolkit.org/wpf"
         mc:Ignorable="d"
         Topmost="True"
         Title="MainWindow" Height="450" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
-    <Window.Resources>
-        <local:Detal x:Key="Detal"/>
-    </Window.Resources>
     <Border Margin="5" BorderBrush="Black" BorderThickness="1">
-        <dTools:TrackballDecorator>
-        <Viewport3D>
-            <!--Камера-->
-            <Viewport3D.Camera>
-                <PerspectiveCamera
-                    FarPlaneDistance="200"
-                    LookDirection="10,3,-3"
-                    UpDirection="0,1,0"
-                    NearPlaneDistance="1"
-                    Position="-100,-10,60"
-                    FieldOfView="70">
-                </PerspectiveCamera>
-            </Viewport3D.Camera>
+        <h:HelixViewport3D ChangeFieldOfViewCursor="ScrollNS" PanCursor="Hand" RotateCursor="SizeAll" ZoomCursor="SizeNS" ZoomRectangleCursor="ScrollSE"  >
+            <h:DefaultLights/>
+            <!--  The content of this visual is defined in MainViewModel.cs  -->
+            <ModelVisual3D Content="{Binding Model}" />
 
-            <!--Источник света-->
-            <ModelVisual3D>
-                <ModelVisual3D.Content>
-                    <DirectionalLight Color="White" Direction="-2,-3,-1" />
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
-            <!--Источник света-->
-            <ModelVisual3D>
-                <ModelVisual3D.Content>
-                    <DirectionalLight Color="White" Direction="2,3,1" />
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
-
-            <ModelVisual3D Content="{Binding Model }">
-            </ModelVisual3D>
-        </Viewport3D>
-</dTools:TrackballDecorator>
+            <!--  You can also add elements here in the xaml  -->
+            <h:GridLinesVisual3D
+                Width="80"
+                Length="80"
+                MajorDistance="10"
+                MinorDistance="1"
+                Thickness="0.01" />
+        </h:HelixViewport3D>
     </Border>
 </Window>

@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HelixToolkit.Wpf" Version="2.20.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="3DTools">
       <HintPath>D:\YandexDisk\Разное\ITVDN\WPF Углублённый\019 3D Graphics\3DTools.dll</HintPath>
     </Reference>

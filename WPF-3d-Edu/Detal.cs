@@ -1,133 +1,38 @@
-﻿using System.Collections.Generic;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using HelixToolkit.Wpf;
 
-namespace WPF_3d_Edu
+namespace WPF_3d_Edu;
+
+internal class Detal
 {
-    internal class Detal
+    public int Width { get; set; } = 50;
+    public int Height { get; set; } = 70;
+    public int Thickness { get; set; } = 20;
+
+    public Model3D ToGeometryModel3D()
     {
-        public int Width { get; set; } = 50;
-        public int Height { get; set; } = 70;
-        public int Thickness { get; set; } = 20;
+        // Create a model group
+        var modelGroup = new Model3DGroup();
 
-        private Point3DCollection GetAnglePoints => new()
+        // Create a mesh builder and add a box to it
+        var meshBuilder = new MeshBuilder(false, false);
+        meshBuilder.AddBox(new Point3D(0, 0, 1), Width, Height, Thickness);
+
+        // Create a mesh from the builder (and freeze it)
+        var mesh = meshBuilder.ToMesh(true);
+
+        // Create some materials
+        var material = MaterialHelper.CreateMaterial(Brushes.DimGray, Brushes.CadetBlue);
+        // Add 3 models to the group (using the same mesh, that's why we had to freeze it)
+        modelGroup.Children.Add(new GeometryModel3D
         {
-            new Point3D(0, 0, 0),
-            new Point3D(Width, 0, 0),
-            new Point3D(Width, Height, 0),
-            new Point3D(0, Height, 0),
+            Geometry = mesh,
+            Material = material
+        });
 
-            new Point3D(0, 0, Thickness),
-            new Point3D(Width, 0, Thickness),
-            new Point3D(Width, Height, Thickness),
-            new Point3D(0, Height, Thickness),
+        return modelGroup;
 
-        };
+    }
 
-        public MeshGeometry3D BuildMesh()
-        {
-            var angles = GetAnglePoints;
-            MeshGeometry3D mesh = new MeshGeometry3D
-            {
-
-                Positions = new()
-                {
-                    angles[0],
-                    angles[1],
-                    angles[2],
-                    angles[3],
-
-                    angles[4],
-                    angles[5],
-                    angles[6],
-                    angles[7],
-
-                    angles[0],
-                    angles[1],
-                    angles[5],
-                    angles[4],
-
-                    angles[3],
-                    angles[2],
-                    angles[6],
-                    angles[7],
-
-                    angles[0],
-                    angles[3],
-                    angles[7],
-                    angles[4],
-
-                    angles[1],
-                    angles[5],
-                    angles[6],
-                    angles[2]
-                },
-                TriangleIndices = new()
-                {
-                    0,
-                    3,
-                    1,
-                    1,
-                    3,
-                    2,
-
-                    4,
-                    5,
-                    6,
-                    6,
-                    7,
-                    4,
-
-                    8,
-                    9,
-                    11,
-                    11,
-                    9,
-                    10,
-
-                    12,
-                    15,
-                    13,
-                    13,
-                    15,
-                    14,
-
-                    16,
-                    19,
-                    17,
-                    17,
-                    19,
-                    18,
-
-                    20,
-                    23,
-                    21,
-                    21,
-                    23,
-                    22
-
-                }
-            };
-
-            return mesh;
-        }
-
-        public GeometryModel3D ToGeometryModel3D()
-        {
-            GeometryModel3D model = new GeometryModel3D
-            {
-                Geometry = BuildMesh(),
-                Material = new MaterialGroup()
-                {
-                    Children = new()
-                    {
-                        new DiffuseMaterial(Brushes.DimGray),
-                        new SpecularMaterial(Brushes.CadetBlue, 2)
-                    }
-                }
-            };
-
-            return model;
-        }
-}
 }
