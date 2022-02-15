@@ -75,7 +75,6 @@ namespace WPF_3d_Edu
 
         private void AddDetal_Click(object Sender, RoutedEventArgs E)
         {
-            var sw = Stopwatch.StartNew();
             var detal = DetalsFactory.CreateEmptyDetal((DetalOrientation)ComboBoxOrientation.SelectedIndex);
             detal.Margins = new()
             {
@@ -90,7 +89,6 @@ namespace WPF_3d_Edu
             Area.Detals.Add(detal);
             //listBox.ItemsSource = Area.Detals;
             Create3D();
-            TimerText.Text = sw.ElapsedMilliseconds.ToString();
         }
 
         private int? ParseOffset(string? value) => int.TryParse(value, out var result) ? result : null;
@@ -104,6 +102,7 @@ namespace WPF_3d_Edu
 
         public void Create3D()
         {
+            var sw = Stopwatch.StartNew();
             // Create a model group
             var modelGroup = new Model3DGroup();
 
@@ -145,6 +144,7 @@ namespace WPF_3d_Edu
             // Set the property, which will be bound to the Content property of the ModelVisual3D (see MainWindow.xaml)
             Model = modelGroup;
             OnPropertyChanged(nameof(Model));
+            TimerText.Text = sw.ElapsedMilliseconds.ToString();
         }
 
         public Model3D Model { get; set; }
