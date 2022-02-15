@@ -16,19 +16,20 @@
         <m:Detal x:Key="DetalHor" Orientation="Horizontal"/>
     </Window.Resources>
     <Grid>
-        <ListBox Name="listBox" HorizontalAlignment="Left" Height="207" Margin="540,10,0,0" VerticalAlignment="Top" Width="250"  ItemsSource="{Binding Area.DetalInfos}">
+        <ListBox Name="listBox" HorizontalAlignment="Right" Margin="10" Width="250"  ItemsSource="{Binding Area.DetalInfos}">
             <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type m:Detal3DInfo}">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Width}"></TextBlock>
-                        <TextBlock Text="{Binding Height}"></TextBlock>
-                        <TextBlock Text="{Binding Depth}"></TextBlock>
+                        <TextBlock Text="{Binding Width, StringFormat=Ширина {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Height, StringFormat=Высота {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Depth, StringFormat=Глубина {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Position, StringFormat=Позиция {0}}"></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
 
         </ListBox>
-        <GroupBox HorizontalAlignment="Left" Height="268" Header="GroupBox" Margin="59,48,0,0" VerticalAlignment="Top" Width="306">
+        <GroupBox HorizontalAlignment="Left" Header="GroupBox" Margin="10" VerticalAlignment="Top" Width="306">
             <StackPanel>
                 <DockPanel>
                     <TextBlock Text="Отступ слева"/>
