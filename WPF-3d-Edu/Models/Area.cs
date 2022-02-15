@@ -27,11 +27,12 @@ public class Area
     private IEnumerable<Detal3DInfo> GetDetalInfos()
     {
         var infos = new List<Detal3DInfo>(); // Список обработанных деталей
+
         foreach (var detal in Detals)
         {
-            var info = new Detal3DInfo();
+            var info = new Detal3DInfo(); // Подготовить деталь для обработки
 
-            switch (detal.Orientation)
+            switch (detal.Orientation) // Установить размеры по всей области
             {
                 case DetalOrientation.Horizontal:
                     info.Height = detal.Material.Thickness;
@@ -52,6 +53,7 @@ public class Area
                     throw new ArgumentOutOfRangeException();
             }
 
+            // Установить смещения в соответствии с отступами
             info.Position.X = GetOffset(AreaSize.Width, info.Width, detal.Margins.Left, detal.Margins.Right);
             info.Position.Y = GetOffset(AreaSize.Height, info.Height, detal.Margins.Bottom, detal.Margins.Top);
             info.Position.Z = GetOffset(AreaSize.Depth, info.Depth, detal.Margins.Back, detal.Margins.Front);
@@ -71,9 +73,30 @@ public class Area
             return info;
         }
 
-        var newAreaSize = CheckCollision(info, previousDetails.Last());
+        // Устранить коллизии и скорректировать область
 
-        return PlaceDetal(info, previousDetails.Take(previousDetails.Count - 1).ToList(), newAreaSize);
+        var prevInfo = previousDetails.Last();
+
+        // По ширине
+
+        var prevWidthFrom = prevInfo.Position.X;
+        var prevWidthTo = prevWidthFrom + prevInfo.Width;
+
+        var currentWidthFrom = info.Position.X;
+        var currentWidthTo = currentWidthFrom + info.Width;
+
+        if (currentWidthFrom < prevWidthTo && currentWidthTo > prevWidthFrom) // Коллизия слева
+        {
+            info.Position.X += prevInfo.Width;
+        }
+
+        if (currentWidthTo > prevWidthFrom && currentWidthFrom < prevWidthTo) // Коллизия справа
+        {
+            info.Position.X -= prevInfo.Width;
+        }
+
+
+        return PlaceDetal(info, previousDetails.Take(previousDetails.Count - 1).ToList(), areaSize);
 
     }
 
