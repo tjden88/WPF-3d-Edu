@@ -24,11 +24,22 @@ namespace WPF_3d_Edu.Models
     {
         public string Name { get; set; }
 
-        public Area Area { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
+
+        public int Thickness => Material.Thickness;
+
+        public Material Material { get; set; } = new();
 
         public DetalOrientation Orientation { get; set; }
 
         public DetalAnchors Anchors { get; set; } = new();
+    }
+
+    internal class Material
+    {
+        public string Name { get; set; } = "ЛДСП 16";
+        public int Thickness { get; set; } = 16;
     }
 
     internal class Area
@@ -44,10 +55,7 @@ namespace WPF_3d_Edu.Models
     {
         public static Detal EmptyDetal(DetalOrientation Orientation, Area Area)
         {
-            var detal = new Detal()
-            {
-                Area = Area
-            };
+            var detal = new Detal();
 
             switch (Orientation)
             {
