@@ -9,7 +9,7 @@
         xmlns:m="clr-namespace:WPF_3d_Edu.Models"
         mc:Ignorable="d"
         Topmost="True"
-        Title="MainWindow" Height="450" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+        Title="MainWindow" Height="800" Width="1200" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Window.Resources>
         <m:Area x:Key="Area"/>
         <m:Detal x:Key="DetalVert" Orientation="Vertical"/>
@@ -62,9 +62,27 @@
                 </ComboBox>
                 <Button Click="AddDetal_Click" Content="Добавить деталь"></Button>
                 <Button Click="ClearDetal_Click" Content="Очистить"></Button>
+                <Button Click="Create3d_Click" Content="3D"></Button>
 
                 <TextBlock Name="TimerText"></TextBlock>
             </StackPanel>
         </GroupBox>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="430" Margin="352,35,0,0" VerticalAlignment="Top" Width="520">
+            <h:HelixViewport3D Name="helix">
+                <h:SunLight />
+
+                <!--  The content of this visual is defined in MainViewModel.cs  -->
+                <ModelVisual3D x:Name="ModelVisual3D" Content="{Binding Model}" />
+
+                <!--  You can also add elements here in the xaml  -->
+                <h:GridLinesVisual3D
+                    Width="8"
+                    Length="8"
+                    MajorDistance="1"
+                    MinorDistance="1"
+                    Thickness="0.01" />
+
+            </h:HelixViewport3D>
+        </Border>
     </Grid>
 </Window>
