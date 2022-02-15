@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_3d_Edu"
-        xmlns:dTools="clr-namespace:_3DTools;assembly=3DTools"
         xmlns:h="http://helix-toolkit.org/wpf"
         xmlns:m="clr-namespace:WPF_3d_Edu.Models"
         mc:Ignorable="d"
@@ -16,20 +15,12 @@
         <m:Detal x:Key="DetalHor" Orientation="Horizontal"/>
     </Window.Resources>
     <Grid>
-        <ListBox Name="listBox" HorizontalAlignment="Right" Margin="10" Width="250"  ItemsSource="{Binding Area.DetalInfos}">
-            <ListBox.ItemTemplate>
-                <DataTemplate DataType="{x:Type m:Detal3DInfo}">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Text="{Binding Width, StringFormat=Ширина {0}}"></TextBlock>
-                        <TextBlock Text="{Binding Height, StringFormat=Высота {0}}"></TextBlock>
-                        <TextBlock Text="{Binding Depth, StringFormat=Глубина {0}}"></TextBlock>
-                        <TextBlock Text="{Binding Position, StringFormat=Позиция {0}}"></TextBlock>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-        </ListBox>
-        <GroupBox HorizontalAlignment="Left" Header="GroupBox" Margin="10" VerticalAlignment="Top" Width="306">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <GroupBox Grid.Column="0" Header="GroupBox" Margin="10" >
             <StackPanel>
                 <DockPanel>
                     <TextBlock Text="Отступ слева"/>
@@ -67,8 +58,11 @@
                 <TextBlock Name="TimerText"></TextBlock>
             </StackPanel>
         </GroupBox>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="430" Margin="352,35,0,0" VerticalAlignment="Top" Width="520">
-            <h:HelixViewport3D Name="helix">
+        <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+            <h:HelixViewport3D ZoomExtentsWhenLoaded="True" ZoomAroundMouseDownPoint="True" RotateAroundMouseDownPoint="True" IsTopBottomViewOrientedToFrontBack="True" IsViewCubeEdgeClicksEnabled="True" Name="helix">
+                <h:HelixViewport3D.Camera>
+                    <PerspectiveCamera Position="000,000,1000"></PerspectiveCamera>
+                </h:HelixViewport3D.Camera>
                 <h:SunLight />
 
                 <!--  The content of this visual is defined in MainViewModel.cs  -->
@@ -76,13 +70,57 @@
 
                 <!--  You can also add elements here in the xaml  -->
                 <h:GridLinesVisual3D
-                    Width="8"
-                    Length="8"
-                    MajorDistance="1"
-                    MinorDistance="1"
-                    Thickness="0.01" />
+                    Width="800"
+                    Length="800"
+                    MajorDistance="100"
+                    MinorDistance="10"
+                    Thickness="1" />
 
             </h:HelixViewport3D>
         </Border>
+        <ListBox Grid.Column="2" Name="listBox" SelectionChanged="Create3d_Click" Margin="10"  ItemsSource="{Binding Area.Detals}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type m:Detal}">
+                    <Border Margin="5" BorderBrush="Black" Width="200" BorderThickness="1">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{Binding Orientation}"></TextBlock>
+                            <TextBlock Text="{Binding Name, StringFormat=Имя: {0}}"></TextBlock>
+                            <TextBox Text="{Binding FixedLenght}"></TextBox>
+                            <TextBox Text="{Binding FixedWidth}"></TextBox>
+                            <StackPanel DataContext="{Binding Margins}">
+                                <DockPanel>
+                                    <TextBlock Text="Отступ слева"/>
+                                    <TextBox Text="{Binding Left}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Отступ справа"/>
+                                    <TextBox Text="{Binding Right}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Отступ сверху"/>
+                                    <TextBox Text="{Binding Top}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Отступ снизу"/>
+                                    <TextBox Text="{Binding Bottom}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Отступ сзади"/>
+                                    <TextBox Text="{Binding Back}"/>
+                                </DockPanel>
+                                <DockPanel>
+                                    <TextBlock Text="Отступ спереди"/>
+                                    <TextBox Text="{Binding Front}"/>
+                                </DockPanel>
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
     </Grid>
 </Window>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -20,23 +19,59 @@ namespace WPF_3d_Edu
         public MainWindow()
         {
             InitializeComponent();
-            Area.Detals = new List<Detal>()
+
+
+            var h1 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal);
+            h1.Name = "Дно";
+            h1.Margins = new()
             {
-                DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal),
-                DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical),
-                DetalsFactory.CreateEmptyDetal(DetalOrientation.Frontal),
+                Bottom = 0
             };
 
-            listBox.ItemsSource = Area.DetalInfos;
+
+            var v1 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical);
+            v1.Name = "Бок левый";
+            v1.Margins = new()
+            {
+                Left = 0
+            };
+
+            var v2 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical);
+            v2.Name = "Бок правый";
+            v2.Margins = new()
+            {
+                Right = 0
+            };
+
+            var p1 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal);
+            p1.Name = "Планка фронт";
+            p1.FixedWidth = 100;
+            p1.Margins = new()
+            {
+                Front = 0,
+                Top = 0
+            };
+
+            var p2 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal);
+            p2.Name = "Планка зад";
+            p2.FixedWidth = 100;
+            p2.Margins = new()
+            {
+                Back = 0,
+                Top = 0
+            };
+
+
+            Area.Detals = new ()
+            {
+                h1, v1, v2, p1, p2
+            };
+
+            listBox.ItemsSource = Area.Detals;
+            Create3D();
         }
 
         public Area Area { get; } = new Area();
-
-        public List<Detal> Detals { get; set; } = new List<Detal>()
-        {
-            DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal),
-            DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical),
-        };
 
         private void AddDetal_Click(object Sender, RoutedEventArgs E)
         {
@@ -53,7 +88,7 @@ namespace WPF_3d_Edu
             };
 
             Area.Detals.Add(detal);
-            listBox.ItemsSource = Area.DetalInfos;
+            //listBox.ItemsSource = Area.Detals;
             Create3D();
             TimerText.Text = sw.ElapsedMilliseconds.ToString();
         }
@@ -63,7 +98,7 @@ namespace WPF_3d_Edu
         private void ClearDetal_Click(object Sender, RoutedEventArgs E)
         {
             Area.Detals.Clear();
-            listBox.ItemsSource = Area.DetalInfos;
+            //listBox.ItemsSource = Area.Detals;
             Create3D();
         }
 
@@ -72,11 +107,20 @@ namespace WPF_3d_Edu
             // Create a model group
             var modelGroup = new Model3DGroup();
 
+            // Create some materials
+            var greenMaterial = MaterialHelper.CreateMaterial(Colors.Green);
+            var redMaterial = MaterialHelper.CreateMaterial(Colors.Red);
+            var blueMaterial = MaterialHelper.CreateMaterial(Colors.Blue);
+            var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
+
+
             // Create a mesh builder and add a box to it
-            var meshBuilder = new MeshBuilder(false, false);
+
+            var i=0;
 
             foreach (var detalInfo in Area.DetalInfos)
             {
+                var meshBuilder = new MeshBuilder(false, false);
                 var locationPoint = new Point3D(detalInfo.Position.Z, detalInfo.Position.X, detalInfo.Position.Y);
                 var size = new Size3D(detalInfo.Depth, detalInfo.Width, detalInfo.Height);
 
@@ -84,20 +128,17 @@ namespace WPF_3d_Edu
 
                 meshBuilder.AddBox(rect);
 
+                // Create a mesh from the builder (and freeze it)
+                var mesh = meshBuilder.ToMesh(true);
+
+                var material = i == listBox.SelectedIndex ? greenMaterial : redMaterial;
+                // Add 3 models to the group (using the same mesh, that's why we had to freeze it)
+                modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Material = material, BackMaterial = insideMaterial });
+
+                i++;
             }
 
 
-            // Create a mesh from the builder (and freeze it)
-            var mesh = meshBuilder.ToMesh(true);
-
-            // Create some materials
-            var greenMaterial = MaterialHelper.CreateMaterial(Colors.Green);
-            var redMaterial = MaterialHelper.CreateMaterial(Colors.Red);
-            var blueMaterial = MaterialHelper.CreateMaterial(Colors.Blue);
-            var insideMaterial = MaterialHelper.CreateMaterial(Colors.Yellow);
-
-            // Add 3 models to the group (using the same mesh, that's why we had to freeze it)
-            modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Material = greenMaterial, BackMaterial = insideMaterial });
             //modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Transform = new TranslateTransform3D(-2, 0, 0), Material = redMaterial, BackMaterial = insideMaterial });
             //modelGroup.Children.Add(new GeometryModel3D { Geometry = mesh, Transform = new TranslateTransform3D(2, 0, 0), Material = blueMaterial, BackMaterial = insideMaterial });
 
