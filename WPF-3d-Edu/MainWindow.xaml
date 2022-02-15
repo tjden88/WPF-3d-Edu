@@ -6,10 +6,27 @@
         xmlns:local="clr-namespace:WPF_3d_Edu"
         xmlns:dTools="clr-namespace:_3DTools;assembly=3DTools"
         xmlns:h="http://helix-toolkit.org/wpf"
+        xmlns:m="clr-namespace:WPF_3d_Edu.Models"
         mc:Ignorable="d"
         Topmost="True"
         Title="MainWindow" Height="450" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Window.Resources>
+        <m:Area x:Key="Area"/>
+        <m:Detal x:Key="DetalVert" Orientation="Vertical"/>
+        <m:Detal x:Key="DetalHor" Orientation="Horizontal"/>
+    </Window.Resources>
     <Grid>
+        <ListBox Name="listBox" HorizontalAlignment="Left" Height="207" Margin="540,10,0,0" VerticalAlignment="Top" Width="250"  ItemsSource="{Binding Area.DetalInfos}">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type m:Detal3DInfo}">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Text="{Binding Width}"></TextBlock>
+                        <TextBlock Text="{Binding Height}"></TextBlock>
+                        <TextBlock Text="{Binding Depth}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
 
+        </ListBox>
     </Grid>
 </Window>
