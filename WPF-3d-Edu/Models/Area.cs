@@ -29,55 +29,55 @@ public class Area
         var infos = new List<Detal3DInfo>(); // Список обработанных деталей
         foreach (var detal in Detals)
         {
-            infos.Add(PlaceDetal(detal, infos, AreaSize));
-        }
-
-        return infos;
-    }
-
-
-    private Detal3DInfo PlaceDetal(Detal detal, List<Detal3DInfo> previousDetails, AreaSize areaSize)
-    {
-
-        if (!previousDetails.Any())
-        {
             var info = new Detal3DInfo();
 
             switch (detal.Orientation)
             {
                 case DetalOrientation.Horizontal:
                     info.Height = detal.Material.Thickness;
-                    info.Width = detal.FixedLenght ?? GetSize(areaSize.Width, detal.Margins.Left, detal.Margins.Right);
-                    info.Depth = detal.FixedWidth ?? GetSize(areaSize.Depth, detal.Margins.Back, detal.Margins.Front);
+                    info.Width = detal.FixedLenght ?? GetSize(AreaSize.Width, detal.Margins.Left, detal.Margins.Right);
+                    info.Depth = detal.FixedWidth ?? GetSize(AreaSize.Depth, detal.Margins.Back, detal.Margins.Front);
                     break;
                 case DetalOrientation.Vertical:
                     info.Width = detal.Material.Thickness;
-                    info.Height = detal.FixedLenght ?? GetSize(areaSize.Height, detal.Margins.Bottom, detal.Margins.Top);
-                    info.Depth = detal.FixedWidth ?? GetSize(areaSize.Depth, detal.Margins.Back, detal.Margins.Front);
+                    info.Height = detal.FixedLenght ?? GetSize(AreaSize.Height, detal.Margins.Bottom, detal.Margins.Top);
+                    info.Depth = detal.FixedWidth ?? GetSize(AreaSize.Depth, detal.Margins.Back, detal.Margins.Front);
                     break;
                 case DetalOrientation.Frontal:
                     info.Depth = detal.Material.Thickness;
-                    info.Width = detal.FixedLenght ?? GetSize(areaSize.Width, detal.Margins.Left, detal.Margins.Right);
-                    info.Height = detal.FixedWidth ?? GetSize(areaSize.Height, detal.Margins.Bottom, detal.Margins.Top);
+                    info.Width = detal.FixedLenght ?? GetSize(AreaSize.Width, detal.Margins.Left, detal.Margins.Right);
+                    info.Height = detal.FixedWidth ?? GetSize(AreaSize.Height, detal.Margins.Bottom, detal.Margins.Top);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
 
-            info.Position.X = GetOffset(areaSize.Width, info.Width, detal.Margins.Left, detal.Margins.Right);
-            info.Position.Y = GetOffset(areaSize.Height, info.Height, detal.Margins.Bottom, detal.Margins.Top);
-            info.Position.Z = GetOffset(areaSize.Depth, info.Depth, detal.Margins.Back, detal.Margins.Front);
+            info.Position.X = GetOffset(AreaSize.Width, info.Width, detal.Margins.Left, detal.Margins.Right);
+            info.Position.Y = GetOffset(AreaSize.Height, info.Height, detal.Margins.Bottom, detal.Margins.Top);
+            info.Position.Z = GetOffset(AreaSize.Depth, info.Depth, detal.Margins.Back, detal.Margins.Front);
 
+            infos.Add(PlaceDetal(info, infos, AreaSize));
+        }
+
+        return infos;
+    }
+
+
+    private Detal3DInfo PlaceDetal(Detal3DInfo info, List<Detal3DInfo> previousDetails, AreaSize areaSize)
+    {
+
+        if (!previousDetails.Any())
+        {
             return info;
         }
 
-        var newAreaSize = CheckCollision(detal, previousDetails.Last());
+        var newAreaSize = CheckCollision(info, previousDetails.Last());
 
-        return PlaceDetal(detal, previousDetails.Take(previousDetails.Count - 1).ToList(), newAreaSize);
+        return PlaceDetal(info, previousDetails.Take(previousDetails.Count - 1).ToList(), newAreaSize);
 
     }
 
-    private AreaSize CheckCollision(Detal detal, Detal3DInfo info)
+    private AreaSize CheckCollision(Detal3DInfo current, Detal3DInfo previous)
     {
         return new AreaSize();
     }
