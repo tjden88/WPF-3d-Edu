@@ -10,35 +10,6 @@
         Topmost="True"
         Title="MainWindow" Height="450" Width="800" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-
-<StackPanel Orientation="Vertical">
-    <TextBlock Text="Шаблон: кухня"/>
-    <DockPanel>
-        <TextBlock Text="Глубина нижних модулей"/>
-        <TextBox Text="520"></TextBox>
-    </DockPanel>
-</StackPanel>
-
-
-        <Border Grid.Column="1" Margin="5" BorderBrush="Black" BorderThickness="1">
-            <h:HelixViewport3D ChangeFieldOfViewCursor="ScrollNS" PanCursor="Hand" RotateCursor="SizeAll" ZoomCursor="SizeNS" ZoomRectangleCursor="ScrollSE"  >
-                <h:DefaultLights/>
-                <!--  The content of this visual is defined in MainViewModel.cs  -->
-                <ModelVisual3D Content="{Binding Model}" />
-
-                <!--  You can also add elements here in the xaml  -->
-                <h:GridLinesVisual3D
-                    Width="80"
-                    Length="80"
-                    MajorDistance="10"
-                    MinorDistance="1"
-                    Thickness="0.01" />
-            </h:HelixViewport3D>
-        </Border>
 
     </Grid>
 </Window>
