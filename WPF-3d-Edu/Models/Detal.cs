@@ -55,9 +55,9 @@ namespace WPF_3d_Edu.Models
 
     public class Area
     {
-        public int Width { get; set; }
-        public int Height { get; set; } 
-        public int Depth { get; set; }
+        public int Width { get; set; } = 600;
+        public int Height { get; set; } = 720;
+        public int Depth { get; set; } = 520;
 
         public Position Position { get; set; } = new();
 
@@ -81,15 +81,17 @@ namespace WPF_3d_Edu.Models
                     case DetalOrientation.Horizontal:
                         info.Height = detal.Material.Thickness;
                         info.Width = detal.FixedLenght ?? GetSize(Width, detal.Margins.Left, detal.Margins.Right);
-                        info.Depth = detal.FixedWidth ?? GetSize(Depth, detal.Margins.Back, detal.Margins.Top);
-
-
+                        info.Depth = detal.FixedWidth ?? GetSize(Depth, detal.Margins.Back, detal.Margins.Front);
                         break;
                     case DetalOrientation.Vertical:
                         info.Width = detal.Material.Thickness;
+                        info.Height = detal.FixedLenght ?? GetSize(Height, detal.Margins.Bottom, detal.Margins.Top);
+                        info.Depth = detal.FixedWidth ?? GetSize(Depth, detal.Margins.Back, detal.Margins.Front);
                         break;
                     case DetalOrientation.Frontal:
                         info.Depth = detal.Material.Thickness;
+                        info.Width = detal.FixedLenght ?? GetSize(Width, detal.Margins.Left, detal.Margins.Right);
+                        info.Height = detal.FixedWidth ?? GetSize(Height, detal.Margins.Bottom, detal.Margins.Top);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();

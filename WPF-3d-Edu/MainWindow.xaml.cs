@@ -18,6 +18,7 @@ namespace WPF_3d_Edu
             {
                 DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal),
                 DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical),
+                DetalsFactory.CreateEmptyDetal(DetalOrientation.Frontal),
             };
 
             listBox.ItemsSource = Area.DetalInfos;
