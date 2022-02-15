@@ -77,8 +77,8 @@ namespace WPF_3d_Edu
 
             foreach (var detalInfo in Area.DetalInfos)
             {
-                var locationPoint = new Point3D(detalInfo.Position.X, detalInfo.Position.Y, detalInfo.Position.Z);
-                var size = new Size3D(detalInfo.Width, detalInfo.Height, detalInfo.Depth);
+                var locationPoint = new Point3D(detalInfo.Position.Z, detalInfo.Position.X, detalInfo.Position.Y);
+                var size = new Size3D(detalInfo.Depth, detalInfo.Width, detalInfo.Height);
 
                 var rect = new Rect3D(locationPoint, size);
 
