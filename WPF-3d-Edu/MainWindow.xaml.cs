@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using WPF_3d_Edu.Models;
 
@@ -33,6 +34,7 @@ namespace WPF_3d_Edu
 
         private void AddDetal_Click(object Sender, RoutedEventArgs E)
         {
+            var sw = Stopwatch.StartNew();
             var detal = DetalsFactory.CreateEmptyDetal((DetalOrientation)ComboBoxOrientation.SelectedIndex);
             detal.Margins = new()
             {
@@ -46,6 +48,7 @@ namespace WPF_3d_Edu
 
             Area.Detals.Add(detal);
             listBox.ItemsSource = Area.DetalInfos;
+            TimerText.Text = sw.ElapsedMilliseconds.ToString();
         }
 
         private int? ParseOffset(string? value) => int.TryParse(value, out var result) ? result : null;

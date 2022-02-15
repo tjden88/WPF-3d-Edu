@@ -62,6 +62,8 @@
                 </ComboBox>
                 <Button Click="AddDetal_Click" Content="Добавить деталь"></Button>
                 <Button Click="ClearDetal_Click" Content="Очистить"></Button>
+
+                <TextBlock Name="TimerText"></TextBlock>
             </StackPanel>
         </GroupBox>
     </Grid>

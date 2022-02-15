@@ -10,7 +10,7 @@ namespace WPF_3d_Edu.Models
         public int Y { get; set; }
         public int Z { get; set; }
 
-        public override string ToString() => $"{X} - {Y} - {Z}";
+        public override string ToString() => $"X={X} Y={Y} Z={Z}";
     }
 
     public class DetalMargins
@@ -97,9 +97,28 @@ namespace WPF_3d_Edu.Models
                         throw new ArgumentOutOfRangeException();
                 }
 
+                info.Position.X = GetOffset(Width, info.Width, detal.Margins.Left, detal.Margins.Right);
+                info.Position.Y = GetOffset(Height, info.Height, detal.Margins.Bottom, detal.Margins.Top);
+                info.Position.Z = GetOffset(Depth, info.Depth, detal.Margins.Back, detal.Margins.Front);
+
                 yield return info;
             }
 
+        }
+
+        private int GetOffset(int Bound, int DetalSize, int? FirstMargin, int? SecondMargin)
+        {
+            if (FirstMargin.HasValue)
+            {
+                return FirstMargin.Value;
+            }
+
+            if (SecondMargin.HasValue)
+            {
+                return Bound - DetalSize - SecondMargin.Value;
+            }
+
+            return (Bound - DetalSize) / 2;
         }
 
         private int GetSize(int Bound, int? FirstMargin, int? SecondMargin)
