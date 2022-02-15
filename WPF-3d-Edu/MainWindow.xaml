@@ -28,5 +28,40 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
+        <GroupBox HorizontalAlignment="Left" Height="268" Header="GroupBox" Margin="59,48,0,0" VerticalAlignment="Top" Width="306">
+            <StackPanel>
+                <DockPanel>
+                    <TextBlock Text="Отступ слева"/>
+                    <TextBox Name="leftOffset"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="Отступ справа"/>
+                    <TextBox Name="rightOffset"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="Отступ сверху"/>
+                    <TextBox Name="topOffset"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="Отступ снизу"/>
+                    <TextBox Name="bottomOffset"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="Отступ сзади"/>
+                    <TextBox Name="backOffset"/>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock Text="Отступ спереди"/>
+                    <TextBox Name="frontOffset"/>
+                </DockPanel>
+                <ComboBox Name="ComboBoxOrientation" SelectedIndex="0">
+                    <ComboBoxItem Content="Горизонтальная"></ComboBoxItem>
+                    <ComboBoxItem Content="Вертикальная"></ComboBoxItem>
+                    <ComboBoxItem Content="Фронтальная"></ComboBoxItem>
+                </ComboBox>
+                <Button Click="AddDetal_Click" Content="Добавить деталь"></Button>
+                <Button Click="ClearDetal_Click" Content="Очистить"></Button>
+            </StackPanel>
+        </GroupBox>
     </Grid>
 </Window>

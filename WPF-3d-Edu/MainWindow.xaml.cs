@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using WPF_3d_Edu.Models;
 
@@ -9,12 +10,10 @@ namespace WPF_3d_Edu
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Area _Area = new Area();
-
         public MainWindow()
         {
             InitializeComponent();
-            _Area.Detals = new List<Detal>()
+            Area.Detals = new List<Detal>()
             {
                 DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal),
                 DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical),
@@ -24,12 +23,37 @@ namespace WPF_3d_Edu
             listBox.ItemsSource = Area.DetalInfos;
         }
 
-        public Area Area => _Area;
+        public Area Area { get; } = new Area();
 
         public List<Detal> Detals { get; set; } = new List<Detal>()
         {
             DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal),
             DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical),
         };
+
+        private void AddDetal_Click(object Sender, RoutedEventArgs E)
+        {
+            var detal = DetalsFactory.CreateEmptyDetal((DetalOrientation)ComboBoxOrientation.SelectedIndex);
+            detal.Margins = new()
+            {
+                Bottom = ParseOffset(bottomOffset.Text),
+                Top = ParseOffset(topOffset.Text),
+                Left = ParseOffset(leftOffset.Text),
+                Right = ParseOffset(rightOffset.Text),
+                Back = ParseOffset(backOffset.Text),
+                Front = ParseOffset(frontOffset.Text),
+            };
+
+            Area.Detals.Add(detal);
+            listBox.ItemsSource = Area.DetalInfos;
+        }
+
+        private int? ParseOffset(string? value) => int.TryParse(value, out var result) ? result : null;
+
+        private void ClearDetal_Click(object Sender, RoutedEventArgs E)
+        {
+            Area.Detals.Clear();
+            listBox.ItemsSource = Area.DetalInfos;
+        }
     }
 }
