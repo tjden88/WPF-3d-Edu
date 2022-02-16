@@ -7,4 +7,6 @@ public class Detal3DInfo
     public int Depth { get; set; } = 520;
 
     public Position Position { get; set; } = new();
+
+    public Detal Detal { get; set; }
 }

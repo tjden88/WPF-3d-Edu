@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 using HelixToolkit.Wpf;
@@ -23,48 +24,38 @@ namespace WPF_3d_Edu
 
             var h1 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal);
             h1.Name = "Дно";
-            h1.Margins = new()
-            {
-                Bottom = 0
-            };
+            h1.Margins.Bottom = 0;
 
 
             var v1 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical);
             v1.Name = "Бок левый";
-            v1.Margins = new()
-            {
-                Left = 0
-            };
+            v1.Margins.Left = 0;
 
             var v2 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Vertical);
             v2.Name = "Бок правый";
-            v2.Margins = new()
-            {
-                Right = 0
-            };
+            v2.Margins.Right = 0;
 
             var p1 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal);
             p1.Name = "Планка фронт";
             p1.FixedWidth = 100;
-            p1.Margins = new()
-            {
-                Front = 0,
-                Top = 0
-            };
+            p1.Margins.Front = 0;
+            p1.Margins.Back = null;
+            p1.Margins.Top = 0;
 
             var p2 = DetalsFactory.CreateEmptyDetal(DetalOrientation.Horizontal);
             p2.Name = "Планка зад";
             p2.FixedWidth = 100;
-            p2.Margins = new()
-            {
-                Back = 0,
-                Top = 0
-            };
+            p2.Margins.Back = 0;
+            p2.Margins.Front = null;
+            p2.Margins.Top = 0;
 
-
-            Area.Detals = new ()
+            Area.Detals = new()
             {
-                h1, v1, v2, p1, p2
+                h1,
+                v1,
+                v2,
+                p1,
+                p2
             };
 
             listBox.ItemsSource = Area.Detals;
@@ -75,15 +66,19 @@ namespace WPF_3d_Edu
 
         private void AddDetal_Click(object Sender, RoutedEventArgs E)
         {
-            var detal = DetalsFactory.CreateEmptyDetal((DetalOrientation)ComboBoxOrientation.SelectedIndex);
-            detal.Margins = new()
+            var detal = new Detal()
             {
-                Bottom = ParseOffset(bottomOffset.Text),
-                Top = ParseOffset(topOffset.Text),
-                Left = ParseOffset(leftOffset.Text),
-                Right = ParseOffset(rightOffset.Text),
-                Back = ParseOffset(backOffset.Text),
-                Front = ParseOffset(frontOffset.Text),
+                Margins = new()
+                {
+                    Bottom = ParseOffset(bottomOffset.Text),
+                    Top = ParseOffset(topOffset.Text),
+                    Left = ParseOffset(leftOffset.Text),
+                    Right = ParseOffset(rightOffset.Text),
+                    Back = ParseOffset(backOffset.Text),
+                    Front = ParseOffset(frontOffset.Text),
+
+                },
+                Orientation = (DetalOrientation) ComboBoxOrientation.SelectedIndex
             };
 
             Area.Detals.Add(detal);
@@ -115,7 +110,7 @@ namespace WPF_3d_Edu
 
             // Create a mesh builder and add a box to it
 
-            var i=0;
+            var i = 0;
 
             foreach (var detalInfo in Area.DetalInfos)
             {
@@ -160,6 +155,11 @@ namespace WPF_3d_Edu
         protected virtual void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
+        }
+
+        private void DeleteDetal_Click(object Sender, RoutedEventArgs E)
+        {
+            Area.Detals.Remove((((Button) Sender).Tag as Detal)!);
         }
     }
 }

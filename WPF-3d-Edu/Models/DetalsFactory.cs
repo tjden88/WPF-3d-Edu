@@ -6,46 +6,54 @@ public static class DetalsFactory
 {
     public static Detal CreateEmptyDetal(DetalOrientation Orientation)
     {
-        var detal = new Detal()
-        {
-            Orientation = Orientation
-        };
+        Detal detal;
 
         switch (Orientation)
         {
             case DetalOrientation.Horizontal:
-                detal.Margins = new()
+                detal = new()
                 {
-                    Left = 0,
-                    Right = 0,
-                    Front = 0,
-                    Back = 0
+                    Margins = new()
+                    {
+                        Left = 0,
+                        Right = 0,
+                        Front = 0,
+                        Back = 0
+                    },
+                    Name = "Горизонт"
                 };
-                detal.Name = "Горизонт";
                 break;
             case DetalOrientation.Vertical:
-                detal.Margins = new()
+                detal = new()
                 {
-                    Bottom = 0,
-                    Top = 0,
-                    Front = 0,
-                    Back = 0
+                    Margins = new()
+                    {
+                        Bottom = 0,
+                        Top = 0,
+                        Front = 0,
+                        Back = 0
+                    },
+                    Name = "Вертикаль"
                 };
-                detal.Name = "Вертикаль";
                 break;
             case DetalOrientation.Frontal:
-                detal.Margins = new()
+                detal = new()
                 {
-                    Bottom = 0,
-                    Top = 0,
-                    Left = 0,
-                    Right = 0,
+                    Margins = new()
+                    {
+                        Bottom = 0,
+                        Top = 0,
+                        Left = 0,
+                        Right = 0,
+                    },
+                    Name = "Фронт"
                 };
-                detal.Name = "Фронт";
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(Orientation), Orientation, null);
         }
+
+        detal.Orientation = Orientation;
 
         return detal;
     }

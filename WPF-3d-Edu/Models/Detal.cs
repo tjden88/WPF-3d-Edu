@@ -14,7 +14,7 @@
 
         public DetalOrientation Orientation { get; set; }
 
-        public DetalMargins Margins { get; set; } = new();
+        public DetalMargins Margins { get; init; } = new();
 
         public Area Area { get; set; }
     }

@@ -7,7 +7,7 @@
         xmlns:h="http://helix-toolkit.org/wpf"
         xmlns:m="clr-namespace:WPF_3d_Edu.Models"
         mc:Ignorable="d"
-        Topmost="True"
+        Topmost="False"
         Title="MainWindow" Height="800" Width="1200" DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Window.Resources>
         <m:Area x:Key="Area"/>
@@ -114,7 +114,7 @@
                                 </DockPanel>
 
                             </StackPanel>
-
+<Button Content="Удалить" Tag="{Binding}" Click="DeleteDetal_Click"></Button>
                         </StackPanel>
 
                     </Border>
